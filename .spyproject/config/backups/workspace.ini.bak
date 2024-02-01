@@ -1,0 +1,12 @@
+[workspace]
+restore_data_on_startup = True
+save_data_on_exit = True
+save_history = True
+save_non_project_files = False
+project_type = 'empty-project-type'
+recent_files = ['..\\Andmetöötlus\\Projekt_andmed1\\PPMS-data-analysis\\merged_v1_KR.py', 'modules\\save\\save.py', 'modules\\prep\\prep.py', 'modules\\plot\\plot.py', 'modules\\read\\read_in.py', 'VSM_main.py', 'modules\\global_variables.py']
+
+[main]
+version = 0.2.0
+recent_files = []
+
