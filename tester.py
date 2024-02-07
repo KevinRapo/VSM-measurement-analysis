@@ -5,13 +5,23 @@ Created on Wed Feb  7 20:54:11 2024
 @author: Kevin
 """
 
-# lis = range(10)
+from modules import prep as P
 
-# lis1 = [1, 2, 3]
-# unpacked = *lis1
+#obj = P.setPointsColor_("Kevin")
+P.setPointsColor_.hello(2)
+#%%
+class MyClass:
+    index = 0
+    @staticmethod
+    def regular_method():
+        MyClass.index += 1
+        return None
 
-def mitu_sõna(*args):
-    mitu = list(args)
-    return mitu
 
-lis = mitu_sõna("Sa", "oled", "pede", "ja")
+# obj = MyClass()
+# print(obj.regular_method())
+MyClass.regular_method()
+MyClass.regular_method()
+# Try to call the regular method without an instance
+print(MyClass.index)  # Raises an error
+

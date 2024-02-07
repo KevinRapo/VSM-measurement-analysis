@@ -54,7 +54,7 @@ ORIGINAL_DATAFRAME["Type"] = ""
 #Creates a folder for the current data file to save related files
 folder_path = S.MakeSaveFolder(FILE_PATH)
 
-# MvsT cycle
+# --------------------------MvsT cycle------------------------------------------------------
 if MAGNETIC_FIELDS_OF_INTEREST.size <= 0:
     print('no MvsT detected')
     print('--------<<<<<<<<<>>>>>>>>>>-----------')
@@ -87,7 +87,8 @@ else:
             SEPARATED_MvsT, MvsT_pair_indices = P.separateMeasurements(ORIGINAL_DATAFRAME, separation_index_MvsT,
                                                                        MvsT_INDICES, "Temperature (K)")
         
-        P.setPointsColor(ORIGINAL_DATAFRAME, SEPARATED_MvsT, COLORS)
+        P.setColor.Points(ORIGINAL_DATAFRAME, SEPARATED_MvsT, COLORS)
+        #P.setPointsColor(ORIGINAL_DATAFRAME, SEPARATED_MvsT, COLORS)
         
         plot.plotMvsT(SEPARATED_MvsT, const, ORIGINAL_DATAFRAME, folder_path)
         
@@ -99,22 +100,24 @@ else:
         return None
 
     #For cycling the colors on MvsT run
-    color_index = 0
+    #color_index = 0
     for const in MAGNETIC_FIELDS_OF_INTEREST:
         try:
             #allUniqueConstMeasurementsMvsT("const") #UNCOMMENTI SEE KUI TAHAD NÄHA KUIDAS ERRORI KORRAL KÄITUB, SUVALINE ARGUMENT SELLEL MIS ERRORI VISKAB LIHTSALT
             allUniqueConstMeasurementsMvsT(const) #ÕIGE MILLEGA TÖÖTAB
+            
         except:
             #mingi indikaator näiteks timeseries et need punktid feilisid
             print("__________________________WARNING_____________________________")
             print(f"-----------------RUN ON {const} OE FAILED--------------------\n")
             print(traceback.format_exc())
             print("______________________________________________________________\n")
-            pass      
+            pass
+        
     print('--------<<<<<<<<<>>>>>>>>>>-----------')
     print('--------<<<<<<<<<>>>>>>>>>>-----------')
     
-# MvsH cycle
+# ---------------------MvsH cycle---------------------------------------------------------------
 if TEMPERATURES_OF_INTEREST.size <= 0:
     print('no MvsH detected')
     print('--------<<<<<<<<<>>>>>>>>>>-----------')
@@ -123,8 +126,7 @@ if TEMPERATURES_OF_INTEREST.size <= 0:
 else:
     print(' MvsH data detected')
     print(TEMPERATURES_OF_INTEREST)
-
-    #test2 = []
+    
     
     def allUniqueConstMeasurementsMvsH(const):
         
@@ -161,7 +163,8 @@ else:
         CORRECTION_TABLES = P.CorrectionTableToDict(correction_field_value, USER_PATH)
         P.interpolateMvsH(SEPARATED_MvsH, CORRECTION_TABLES)
         
-        P.setPointsColor(ORIGINAL_DATAFRAME, SEPARATED_MvsH, COLORS)
+        P.setColor.Points(ORIGINAL_DATAFRAME, SEPARATED_MvsH, COLORS)
+        #P.setPointsColor(ORIGINAL_DATAFRAME, SEPARATED_MvsH, COLORS)
         
         plot.plotMvsH(SEPARATED_MvsH, const, ORIGINAL_DATAFRAME, folder_path)
         
@@ -173,11 +176,8 @@ else:
         
         return None
     
-    # For cycling the colors on the MvsH run
-    color_index = 0
     for const in TEMPERATURES_OF_INTEREST:
         try:
-            #allUniqueConstMeasurementsMvsH("const") #UNCOMMENTI SEE KUI TAHAD NÄHA KUIDAS ERRORI KORRAL KÄITUB, SUVALINE ARGUMENT SELLEL MIS ERRORI VISKAB LIHTSALT
             allUniqueConstMeasurementsMvsH(const) #ÕIGE MILLEGA TÖÖTAB
             
         except:
