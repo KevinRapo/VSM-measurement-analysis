@@ -63,8 +63,7 @@ if MAGNETIC_FIELDS_OF_INTEREST.size <= 0:
 else:
     print(' MvsT data detected')
     print(MAGNETIC_FIELDS_OF_INTEREST)
-
-    #test1 = []
+    
     
     def allUniqueConstMeasurementsMvsT(const):
         
@@ -99,8 +98,7 @@ else:
         S.appendAndSave(SEPARATED_MvsT, "MvsT", const, folder_path)
         return None
 
-    #For cycling the colors on MvsT run
-    #color_index = 0
+
     for const in MAGNETIC_FIELDS_OF_INTEREST:
         try:
             #allUniqueConstMeasurementsMvsT("const") #UNCOMMENTI SEE KUI TAHAD NÄHA KUIDAS ERRORI KORRAL KÄITUB, SUVALINE ARGUMENT SELLEL MIS ERRORI VISKAB LIHTSALT
