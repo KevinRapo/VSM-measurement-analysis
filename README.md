@@ -24,6 +24,6 @@ and are used in the `main.py` file as a linear program to perform the following 
 
 | MvsT sample | MvsH sample |
 | ------------- |:-------------:|
-| ![MvsT sample plot](/img/MvsT_sample)|![MvsH sample plot](/img/MvsH_sample)   
+| ![MvsT sample plot](img/MvsT_sample)|![MvsH sample plot](img/MvsH_sample)   
 
 4. Saves the plots and parameters from each individual measurement into a `.csv` file that's located in the same folder as the input file on your computer.
