@@ -28,5 +28,5 @@ and are used in the `main.py` file as a linear program to perform the following 
 
 |Timeseries sample|
 |:---:|
-|<img src="https://github.com/KevinRapo/VSM-measurement-analysis/blob/main/img/timeseries.png?raw=true" width="350">|
+|<img src="https://github.com/KevinRapo/VSM-measurement-analysis/blob/main/img/timeseries.png?raw=true" width="380">|
 4. Saves the plots and parameters from each individual measurement into a `.csv` file that's located in the same folder as the input file on your computer.
