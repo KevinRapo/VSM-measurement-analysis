@@ -14,21 +14,15 @@ The functions used in the project are separated into different modules:
     │   ├── prep.py
     │   ├── plot.py
     │   └── save.py
+    ├── PdCorrection tables
     └── ...
 ```
 and are used in the `main.py` file as a linear program to perform the following blocks of tasks:
-1. Read in the raw data
-2. Prepare the data for ploting and saving (for further analysis in Origin for example)
-3. Plot the measurement data into _**Moment vs Temperature**_/_**Moment vs Magnetic Field Strength**_ plots with an additional **_timeseries plot_** of the measurement
+1. Read in the raw data.
+2. Prepare the data for ploting and saving (for further analysis in Origin for example).
+3. Plot the measurement data into _**Moment vs Temperature**_/_**Moment vs Magnetic Field Strength**_ plots with an additional **_timeseries plot_** of the measurement.
 
-<div style="display: flex;">
-    <div style="flex: 50%; padding: 5px;">
-        <img src="img/MvsT_sample.png" alt="MvsT sample plot" style="width: 100%;">
-    </div>
-    <div style="flex: 50%; padding: 5px;">
-        <img src="img/MvsH_sample.png" alt="MvsH sample plot" style="width: 100%;">
-    </div>
-</div>
+![MvsT sample plot](img/MvsT_sample.png "MvsT sample")![MvsH sample plot](img/MvsH_sample.png)
 
 
-4. Saves parameters from each individual measurement into a `.csv` file 
+4. Saves the plots and parameters from each individual measurement into a `.csv` file  that is going to be located in the same folder as the original file being worked on is.
