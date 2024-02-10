@@ -665,23 +665,18 @@ def setPointsColor(original_dataframe, pairs, colors):
 
 class setColor:
     color_index = 0
-    @staticmethod
-    def Points(original_dataframe, pairs, colors):
-        
+
+    @classmethod
+    def Points(cls, original_dataframe, pairs, colors):
         for pair in pairs:
             all_indices = []
-            
             first_indices = pair[0].index.tolist()
             second_indices = pair[1].index.tolist()
             all_indices = first_indices + second_indices
-            
-            original_dataframe.loc[all_indices, "color"] = colors[setColor.color_index]
-            
-            setColor.color_index += 1
-
-            if setColor.color_index == len(colors): #if the colors are used up it goes back to the beginning
-                setColor.color_index = 0
+            original_dataframe.loc[all_indices, "color"] = colors[cls.color_index]
+            cls.color_index = (cls.color_index + 1) % len(colors)  # Reset index if all colors are used
         return None
+
     
 def appendPar(x, y ,z):
     lis = [x, y ,z]
