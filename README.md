@@ -22,7 +22,13 @@ and are used in the `main.py` file as a linear program to perform the following 
 2. Prepare the data for ploting and saving (for further analysis in Origin for example).
 3. Plot the measurement data into _**Moment vs Temperature**_/_**Moment vs Magnetic Field Strength**_ plots with an additional **_timeseries plot_** of the measurement.
 
-![MvsT sample plot](img/MvsT_sample.png "MvsT sample")![MvsH sample plot](img/MvsH_sample.png)
-
+<div style="display: flex;">
+    <div style="flex: 50%; padding: 5px;">
+        <img src="https://github.com/KevinRapo/VSM-measurement-analysis/blob/Kevin/img/MvsT_sample.png?raw=true" alt="MvsT sample plot" style="width: 100%;">
+    </div>
+    <div style="flex: 50%; padding: 5px;">
+        <img src="https://github.com/KevinRapo/VSM-measurement-analysis/blob/Kevin/img/MvsH_sample.png?raw=true" alt="MvsH sample plot" style="width: 96%;">
+    </div>
+</div>
 
 4. Saves the plots and parameters from each individual measurement into a `.csv` file  that is going to be located in the same folder as the original file being worked on is.

@@ -35,3 +35,4 @@ print(MyClass.static_method())  # Output: Class variable modified inside static 
 
 # Accessing the class variable
 print(MyClass.class_variable)  # Output: 100
+    
