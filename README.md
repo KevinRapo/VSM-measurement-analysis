@@ -25,7 +25,6 @@ and are used in the `main.py` file as a linear program to perform the following 
 | MvsT sample | MvsH sample |
 | ------------- |:-------------:|
 | ![MvsT sample plot](https://github.com/KevinRapo/VSM-measurement-analysis/blob/Kevin/img/MvsT_sample.png?raw=true)|![MvsH sample plot](https://github.com/KevinRapo/VSM-measurement-analysis/blob/Kevin/img/MvsH_sample.png?raw=true)   
-|
 
 |Timeseries sample|
 |:---:|
