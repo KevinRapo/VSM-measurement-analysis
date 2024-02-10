@@ -24,6 +24,10 @@ and are used in the `main.py` file as a linear program to perform the following 
 
 | MvsT sample | MvsH sample |
 | ------------- |:-------------:|
-| ![MvsT sample plot](img/MvsT_sample.png)|![MvsH sample plot](img/MvsH_sample.png)   
+| ![MvsT sample plot](https://github.com/KevinRapo/VSM-measurement-analysis/blob/Kevin/img/MvsT_sample.png?raw=true)|![MvsH sample plot](https://github.com/KevinRapo/VSM-measurement-analysis/blob/Kevin/img/MvsH_sample.png?raw=true)   
+|
 
+|Timeseries sample|
+|:---:|
+|<img src="https://github.com/KevinRapo/VSM-measurement-analysis/blob/main/img/timeseries.png?raw=true" width="350">|
 4. Saves the plots and parameters from each individual measurement into a `.csv` file that's located in the same folder as the input file on your computer.
