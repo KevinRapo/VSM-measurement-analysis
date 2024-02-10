@@ -121,7 +121,7 @@ def getMeasurementMvsH(original_dataframe, value, bound = 1):
     upper = value + bound
     filtered_df = table[(table['Temperature (K)'] >= lower) & (table['Temperature (K)'] <= upper) & (table['color'] == "black") ]
     indices = filtered_df.index.tolist()
-        
+    indices = filterMeasurementIndices(indices)
     return indices
 
 
@@ -403,7 +403,7 @@ def getMeasurementMvsT(original_dataframe, const):
     table = original_dataframe['Magnetic Field (Oe)']
     indices = table.index[table == const].tolist()
     # row_indices[const] = indices
-
+    indices = filterMeasurementIndices(indices)
     return indices
 
 #---------------------------------------Universal functions that both paths use----------------------------------------------
@@ -467,30 +467,12 @@ def separationIndexForSingleSeries(original_dataframe, indices, column_name, con
     
     data = original_dataframe.loc[indices, column_name]
     
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    # print(type(data))
-    
     if isinstance(data, pd.Series):
         # Convert a Series to a DataFrame with a specified column name
         data = pd.DataFrame({column_name: data})
     
-    # print("Test OK OK")
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    # print(data)
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    # print(type(data))
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    # print(data.values)
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    # print(data[column_name])
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    # print(data[column_name].values)
-    # print("xxxxxxxxxxxxxxxxxxxx")
-    
     index = data.index
-    
     n = int(x*len(data))
-    #print(f"n for this run: {n}")
     
     # Find local peaks
     relative_min_indices = argrelextrema(data[column_name].values, np.less_equal, order=n)[0]
@@ -766,5 +748,3 @@ def addParameterColumns(original_dataframe, separated_pairs, data_type, paramete
         separated_pairs[i] = pair
         
     return None
-
-print("Commit toimis")

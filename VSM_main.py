@@ -70,8 +70,9 @@ else:
         global unfiltered_MvsT_indices, MvsT_INDICES, separation_index_MvsT, SEPARATED_MvsT, MvsT_pair_indices,\
             test1
         
-        unfiltered_MvsT_indices = prep.getMeasurementMvsT(ORIGINAL_DATAFRAME, const)
-        MvsT_INDICES = prep.filterMeasurementIndices(unfiltered_MvsT_indices)
+        #unfiltered_MvsT_indices = prep.getMeasurementMvsT(ORIGINAL_DATAFRAME, const)
+        MvsT_INDICES = prep.getMeasurementMvsT(ORIGINAL_DATAFRAME, const)
+        #MvsT_INDICES = prep.filterMeasurementIndices(unfiltered_MvsT_indices)
         
         separation_index_MvsT = prep.separationIndexForSingleSeries(ORIGINAL_DATAFRAME, MvsT_INDICES,
                                                                  "Temperature (K)", const)
@@ -131,15 +132,16 @@ else:
         global unfiltered_MvsH_indices, MvsH_INDICES, separation_index_MvsH, SEPARATED_MvsH, MvsH_pair_indices, correction_field_value,\
             CORRECTION_TABLES, test2
         
-        unfiltered_MvsH_indices = prep.getMeasurementMvsH(ORIGINAL_DATAFRAME, const)
+        #unfiltered_MvsH_indices = prep.getMeasurementMvsH(ORIGINAL_DATAFRAME, const)
+        MvsH_INDICES = prep.getMeasurementMvsH(ORIGINAL_DATAFRAME, const)
+        # if len(unfiltered_MvsH_indices) == 0:#!!! see check tuleb mujale panna kui need kokku panna
+        #     #print("*********************")
+        #     print(f"\nFalse positive for MvsH at {const} K\nNo actual measurement at that temperature")
+        #     #print("*********************")
+        #     return None
         
-        if len(unfiltered_MvsH_indices) == 0:
-            #print("*********************")
-            print(f"\nFalse positive for MvsH at {const} K\nNo actual measurement at that temperature")
-            #print("*********************")
-            return None
+        #MvsH_INDICES = prep.filterMeasurementIndices(unfiltered_MvsH_indices)
         
-        MvsH_INDICES = prep.filterMeasurementIndices(unfiltered_MvsH_indices)
         separation_index_MvsH = prep.separationIndexForSingleSeries(ORIGINAL_DATAFRAME, MvsH_INDICES,
                                                                  "Magnetic Field (Oe)", const)
         
@@ -154,8 +156,8 @@ else:
             SEPARATED_MvsH, MvsH_pair_indices = prep.separateMeasurements(ORIGINAL_DATAFRAME, separation_index_MvsH,
                                                                        MvsH_INDICES, "Magnetic Field (Oe)")
             
-        #???
-        #SEPARATED_MvsH = removeBleedingElement(SEPARATED_MvsH)
+        #??? vist oli mingi error aga 1_CoFe2O4_700degC_Hys_at300K_2TSweep_19062023 faili puhul vaja, /MvsH mitu samal
+        #SEPARATED_MvsH = prep.removeBleedingElement(SEPARATED_MvsH)
         
         correction_field_value = prep.roundFieldForCorrection(SEPARATED_MvsH)
         CORRECTION_TABLES = prep.CorrectionTableToDict(correction_field_value, USER_PATH)
