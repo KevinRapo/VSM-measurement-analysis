@@ -44,9 +44,6 @@ class Universal:#!!!
             MvsT measurement fields.
     
         """
-
-        global tempCount
-        #Checks what measurements the file contains
         
         rounded_dataset_T = measurement_table["Temperature (K)"].round(decimals=1)
         rounded_dataset_H = measurement_table["Magnetic Field (Oe)"]#.round(decimals=0)
@@ -700,77 +697,49 @@ class MvsH(Universal):#!!!
     
             return interpolated_dict  # siin vaata üle func returnib aga ei omista muutujale
     
-    def MvsH_cycle(self):
-        # ---------------------MvsH cycle---------------------------------------------------------------
-        if self.temperatures_of_interest.size <= 0:
-            print('no MvsH detected')
-            print('--------<<<<<<<<<>>>>>>>>>>-----------')
-            print('--------<<<<<<<<<>>>>>>>>>>-----------')
-    
-        else:
-            print(' MvsH data detected')
-            print(self.temperatures_of_interest)
-    
-            def allUniqueConstMeasurementsMvsH(const):
-    
-                global unfiltered_MvsH_indices, MvsH_INDICES, separation_index_MvsH, SEPARATED_MvsH, MvsH_pair_indices, correction_field_value, \
-                    CORRECTION_TABLES, test2
-    
-                MvsH_INDICES = self.getMeasurementMvsH(self.df, const)
-                separation_index_MvsH = self.separationIndexForSingleSeries(self.df, MvsH_INDICES,
-                                                                            "Magnetic Field (Oe)", const)
-                
-                try:
-                    SEPARATED_MvsH, MvsH_pair_indices = self.separateMeasurements(self.df, separation_index_MvsH,
-                                                                                  MvsH_INDICES, "Magnetic Field (Oe)")
-                except IndexError:
-                    print("\nChanged separateMeasurements parameter x = 0.5, was 0.1\n")
-    
-                    separation_index_MvsH = self.separationIndexForSingleSeries(self.df, MvsH_INDICES,
-                                                                                "Magnetic Field (Oe)", const, x=0.5)  # the indices where the separation is going to be done
-                    SEPARATED_MvsH, MvsH_pair_indices = self.separateMeasurements(self.df, separation_index_MvsH,
-                                                                                  MvsH_INDICES, "Magnetic Field (Oe)")
-    
-                # vist oli mingi error aga 1_CoFe2O4_700degC_Hys_at300K_2TSweep_19062023 faili puhul vaja, /MvsH mitu samal
-                # SEPARATED_MvsH = self.removeBleedingElement(SEPARATED_MvsH)
-    
-                correction_field_value = self.roundFieldForCorrection(SEPARATED_MvsH)
-                
-                CORRECTION_TABLES = self.CorrectionTableToDict(
-                    correction_field_value, self.user_path)
-                
-                self.interpolateMvsH(SEPARATED_MvsH, CORRECTION_TABLES)
-    
-                setColor.Points(self.df, SEPARATED_MvsH, self.colors)
-    
-                plot.plotMvsH(SEPARATED_MvsH, const, self.df, self.folder_path)
-    
-                self.df.loc[MvsH_INDICES, "Type"] = "MvsH"
-    
-                sample_parameters = self.appendPar(
-                    self.sample_mass_g, self.sample_area_cm2, self.thickness)
-                
-                self.addParameterColumns(
-                    self.df, SEPARATED_MvsH, "MvsH", sample_parameters)
-                
-                self.appendAndSave(SEPARATED_MvsH, "MvsH", const, self.folder_path)
-    
-                return None
-    
-            for const in self.temperatures_of_interest:
-                try:
-                    allUniqueConstMeasurementsMvsH(const)  # ÕIGE MILLEGA TÖÖTAB
-    
-                except:
-                    # mingi indikaator näiteks timeseries et need punktid feilisid
-                    print("__________________________WARNING_____________________________")
-                    print(
-                        f"-----------------RUN ON {const} K FAILED--------------------\n")
-                    print(traceback.format_exc())
-                    # print("______________________________________________________________\n")
-                    pass
-            print('--------<<<<<<<<<>>>>>>>>>>-----------')
-            print('--------<<<<<<<<<>>>>>>>>>>-----------')
+    def allUniqueConstMeasurementsMvsH(self, const):
+
+        MvsH_INDICES = self.getMeasurementMvsH(self.df, const)
+        separation_index_MvsH = self.separationIndexForSingleSeries(self.df, MvsH_INDICES,
+                                                                    "Magnetic Field (Oe)", const)
+        
+        try:
+            SEPARATED_MvsH, MvsH_pair_indices = self.separateMeasurements(self.df, separation_index_MvsH,
+                                                                          MvsH_INDICES, "Magnetic Field (Oe)")
+        except IndexError:
+            print("\nChanged separateMeasurements parameter x = 0.5, was 0.1\n")
+
+            separation_index_MvsH = self.separationIndexForSingleSeries(self.df, MvsH_INDICES,
+                                                                        "Magnetic Field (Oe)", const, x=0.5)  # the indices where the separation is going to be done
+            SEPARATED_MvsH, MvsH_pair_indices = self.separateMeasurements(self.df, separation_index_MvsH,
+                                                                          MvsH_INDICES, "Magnetic Field (Oe)")
+
+        # vist oli mingi error aga 1_CoFe2O4_700degC_Hys_at300K_2TSweep_19062023 faili puhul vaja, /MvsH mitu samal
+        # SEPARATED_MvsH = self.removeBleedingElement(SEPARATED_MvsH)
+
+        correction_field_value = self.roundFieldForCorrection(SEPARATED_MvsH)
+        
+        CORRECTION_TABLES = self.CorrectionTableToDict(
+            correction_field_value, self.user_path)
+        
+        self.interpolateMvsH(SEPARATED_MvsH, CORRECTION_TABLES)
+
+        setColor.Points(self.df, SEPARATED_MvsH, self.colors)
+
+        plot.plotMvsH(SEPARATED_MvsH, const, self.df, self.folder_path)
+
+        self.df.loc[MvsH_INDICES, "Type"] = "MvsH"
+
+        sample_parameters = self.appendPar(
+            self.sample_mass_g, self.sample_area_cm2, self.thickness)
+        
+        self.addParameterColumns(
+            self.df, SEPARATED_MvsH, "MvsH", sample_parameters)
+        
+        self.appendAndSave(SEPARATED_MvsH, "MvsH", const, self.folder_path)
+
+        return None
+
 
 # -----------------------------MvsT specific functions--------------------------------
 
@@ -799,6 +768,39 @@ class MvsT(Universal):#!!!
         
         return indices
     
+    def allUniqueConstMeasurementsMvsT(self, const):
+
+        MvsT_INDICES = self.getMeasurementMvsT(self.df, const)
+        separation_index_MvsT = self.separationIndexForSingleSeries(self.df, MvsT_INDICES,
+                                                                    "Temperature (K)", const)
+        
+        try:
+            SEPARATED_MvsT, MvsT_pair_indices = self.separateMeasurements(self.df, separation_index_MvsT,
+                                                                          MvsT_INDICES, "Temperature (K)")
+            
+        except IndexError:
+            print("\nChanged separateMeasurements parameter x = 0.5, was 0.1\n")
+
+            separation_index_MvsT = self.separationIndexForSingleSeries(self.df, MvsT_INDICES,
+                                                                        "Temperature (K)", const, x=0.5)  # the indices where the separation is going to be done
+            
+            SEPARATED_MvsT, MvsT_pair_indices = self.separateMeasurements(self.df, separation_index_MvsT,
+                                                                          MvsT_INDICES, "Temperature (K)")
+
+        setColor.Points(self.df, SEPARATED_MvsT, self.colors)
+
+        plot.plotMvsT(SEPARATED_MvsT, const, self.df, self.folder_path)
+
+        self.df.loc[MvsT_INDICES, "Type"] = "MvsT"
+
+        sample_parameters = self.appendPar(
+            self.sample_mass_g, self.sample_area_cm2, self.thickness)
+        self.addParameterColumns(
+            self.df, SEPARATED_MvsT, "MvsT", sample_parameters)
+        self.appendAndSave(SEPARATED_MvsT, "MvsT", const, self.folder_path)
+        
+        return None
+
         
 #-----------------------------------------Main object---------------------------------------------------
 class MeasurementObj(MvsH, MvsT):#!!!
@@ -811,9 +813,8 @@ class MeasurementObj(MvsH, MvsT):#!!!
 
         Parameters
         ----------
-        file_path : STRING, optional
-            If called without file_path var, gives a filedialog.askopenfilename() pop up to choose the file manually.
-            The default is None.
+        file_path : TYPE, optional
+            DESCRIPTION. The default is None.
 
         Returns
         -------
@@ -845,11 +846,9 @@ class MeasurementObj(MvsH, MvsT):#!!!
 
 
         print("_________chechMeasurementType2-----------")
-        # Tagastab kaks Pandas.Seriest: temperatures_of_interest, self.temperatures_of_interest
+        # Returns two Pandas.Seriest: temperatures_of_interest, magnetic_fields_of_interest
         self.temperatures_of_interest, self.magnetic_fields_of_interest = self.checkMeasurementType2(self.df)
         print("_________end-----------\n")
-
-        # self.temperatures_of_interest = list(self.temperatures_of_interest)
 
         print('--------<<<<<<<<<>>>>>>>>>>-----------')
         print('--------<<<<<<<<<>>>>>>>>>>-----------')
@@ -869,11 +868,8 @@ class MeasurementObj(MvsH, MvsT):#!!!
         # Plots temp, field and moment against time
         plot.plotMeasurementTimeseries(self.df, self.folder_path)
 
-
-
-    # --------------------------MvsT cycle------------------------------------------------------
-    def MvsT_cycle(self):#!!! kas jätta siia?
-        
+    def MvsT_cycle(self):
+        # --------------------------MvsT cycle------------------------------------------------------
         if self.magnetic_fields_of_interest.size <= 0:
             print('no MvsT detected')
             print('--------<<<<<<<<<>>>>>>>>>>-----------')
@@ -883,45 +879,10 @@ class MeasurementObj(MvsH, MvsT):#!!!
             print(' MvsT data detected')
             print(self.magnetic_fields_of_interest)
     
-            def allUniqueConstMeasurementsMvsT(const):
-    
-                global unfiltered_MvsT_indices, MvsT_INDICES, separation_index_MvsT, SEPARATED_MvsT, MvsT_pair_indices, \
-                    test1
-    
-                MvsT_INDICES = self.getMeasurementMvsT(self.df, const)
-                separation_index_MvsT = self.separationIndexForSingleSeries(self.df, MvsT_INDICES,
-                                                                            "Temperature (K)", const)
-                
-                try:
-                    SEPARATED_MvsT, MvsT_pair_indices = self.separateMeasurements(self.df, separation_index_MvsT,
-                                                                                  MvsT_INDICES, "Temperature (K)")
-                    
-                except IndexError:
-                    print("\nChanged separateMeasurements parameter x = 0.5, was 0.1\n")
-    
-                    separation_index_MvsT = self.separationIndexForSingleSeries(self.df, MvsT_INDICES,
-                                                                                "Temperature (K)", const, x=0.5)  # the indices where the separation is going to be done
-                    
-                    SEPARATED_MvsT, MvsT_pair_indices = self.separateMeasurements(self.df, separation_index_MvsT,
-                                                                                  MvsT_INDICES, "Temperature (K)")
-    
-                setColor.Points(self.df, SEPARATED_MvsT, self.colors)
-    
-                plot.plotMvsT(SEPARATED_MvsT, const, self.df, self.folder_path)
-    
-                self.df.loc[MvsT_INDICES, "Type"] = "MvsT"
-    
-                sample_parameters = self.appendPar(
-                    self.sample_mass_g, self.sample_area_cm2, self.thickness)
-                self.addParameterColumns(
-                    self.df, SEPARATED_MvsT, "MvsT", sample_parameters)
-                self.appendAndSave(SEPARATED_MvsT, "MvsT", const, self.folder_path)
-                return None
-    
         for const in self.magnetic_fields_of_interest:
+            
             try:
-                # allUniqueConstMeasurementsMvsT("const") #UNCOMMENTI SEE KUI TAHAD NÄHA KUIDAS ERRORI KORRAL KÄITUB, SUVALINE ARGUMENT SELLEL MIS ERRORI VISKAB LIHTSALT
-                allUniqueConstMeasurementsMvsT(const)  # ÕIGE MILLEGA TÖÖTAB
+                super().allUniqueConstMeasurementsMvsT(const)
     
             except:
                 # mingi indikaator näiteks timeseries et need punktid feilisid
@@ -935,8 +896,48 @@ class MeasurementObj(MvsH, MvsT):#!!!
         print('--------<<<<<<<<<>>>>>>>>>>-----------')
         print('--------<<<<<<<<<>>>>>>>>>>-----------')
         
+    def MvsH_cycle(self):
+        # ---------------------MvsH cycle---------------------------------------------------------------
+        if self.temperatures_of_interest.size <= 0:
+            print('no MvsH detected')
+            print('--------<<<<<<<<<>>>>>>>>>>-----------')
+            print('--------<<<<<<<<<>>>>>>>>>>-----------')
+    
+        else:
+            print(' MvsH data detected')
+            print(self.temperatures_of_interest)
+    
+            for const in self.temperatures_of_interest:
+                try:
+                    super().allUniqueConstMeasurementsMvsH(const)  # ÕIGE MILLEGA TÖÖTAB
+    
+                except:
+                    # mingi indikaator näiteks timeseries et need punktid feilisid
+                    print("__________________________WARNING_____________________________")
+                    print(
+                        f"-----------------RUN ON {const} K FAILED--------------------\n")
+                    print(traceback.format_exc())
+                    # print("______________________________________________________________\n")
+                    pass
+            print('--------<<<<<<<<<>>>>>>>>>>-----------')
+            print('--------<<<<<<<<<>>>>>>>>>>-----------')
+            
     def MakeSaveFolder(self, file_path):
-        #Creates a folder for the current data file to save related files
+        """
+        Creates a folder for the current data file to save related files
+
+        Parameters
+        ----------
+        file_path : STRING
+            Location of original file.
+
+        Returns
+        -------
+        folder_name : STRING
+            Location for the folder.
+
+        """
+
         folder_name = os.path.splitext(file_path)[0] + ""
         os.makedirs(folder_name, exist_ok = True)
         
